@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 17 Exercise - More CSS Features</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Roboto, Arial, sans-serif; background-color: #0f0f0f; color: #fff; padding-top: 56px; }
+
+    /* ---------- Top header ---------- */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background-color: #0f0f0f; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 16px; z-index: 100;
+    }
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .hamburger { font-size: 22px; cursor: pointer; }
+    .logo { font-size: 20px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 4px; }
+    .logo .play { background: #ff0000; color: #fff; border-radius: 4px; padding: 2px 4px; font-size: 14px; }
+
+    .search-bar { display: flex; align-items: center; gap: 16px; flex: 1; max-width: 700px; margin: 0 40px; }
+    .search-wrap { display: flex; flex: 1; }
+    .search-bar input {
+      width: 100%; padding: 8px 16px; border: 1px solid #303030;
+      border-radius: 20px 0 0 20px; outline: none; background: #121212; color: #fff;
+    }
+    .search-bar button {
+      padding: 8px 20px; border: 1px solid #303030; border-left: none;
+      border-radius: 0 20px 20px 0; background-color: #222222; color: #fff; cursor: pointer;
+    }
+    .mic-icon {
+      width: 40px; height: 40px; border-radius: 50%; background: #181818;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .create-btn {
+      display: flex; align-items: center; gap: 6px; background: #272727; color: #fff;
+      border: none; border-radius: 18px; padding: 8px 14px; font-size: 14px; cursor: pointer;
+    }
+    .bell { position: relative; font-size: 20px; cursor: pointer; }
+    .bell .dot {
+      position: absolute; top: -6px; right: -8px; background: #ff0000; color: #fff;
+      font-size: 10px; padding: 1px 4px; border-radius: 8px;
+    }
+    .avatar-icon img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: block; }
+
+    /* ---------- Layout ---------- */
+    .main-container { display: flex; }
+    .sidebar {
+      width: 240px; background-color: #0f0f0f; display: flex; flex-direction: column;
+      padding: 12px; flex-shrink: 0; position: sticky; top: 56px; height: calc(100vh - 56px);
+      overflow-y: auto; border-right: 1px solid #1f1f1f;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 20px; width: 100%; padding: 10px 12px;
+      cursor: pointer; border-radius: 10px; font-size: 14px; color: #f1f1f1;
+    }
+    .sidebar-item:hover { background-color: #1f1f1f; }
+    .sidebar-item .icon { font-size: 18px; width: 20px; text-align: center; }
+    .sidebar-divider { border-top: 1px solid #303030; margin: 10px 0; }
+    .sidebar-label {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 6px 12px; font-size: 15px; font-weight: 500; color: #f1f1f1; cursor: pointer;
+    }
+    .sub-item { display: flex; align-items: center; gap: 16px; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
+    .sub-item:hover { background-color: #1f1f1f; }
+    .sub-item img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+    .sub-item span { font-size: 14px; color: #f1f1f1; }
+
+    .content { flex: 1; padding: 20px; }
+
+    /* ---------- Video grid ---------- */
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .video-card { background-color: #181818; border-radius: 8px; overflow: hidden; }
+    .thumbnail-container { position: relative; width: 100%; aspect-ratio: 16 / 9; }
+    .thumbnail-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-time {
+      position: absolute; bottom: 8px; right: 8px; background-color: rgba(0, 0, 0, 0.8);
+      color: white; font-size: 12px; font-weight: 500; padding: 2px 4px; border-radius: 2px;
+    }
+    .video-info-grid { display: grid; grid-template-columns: 36px 1fr; column-gap: 12px; padding: 12px; }
+    .channel-avatar img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    .video-title {
+      font-size: 14px; font-weight: 500; line-height: 20px; color: #f1f1f1; margin-bottom: 4px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .video-author, .video-stats { font-size: 12px; color: #aaaaaa; line-height: 18px; }
+
+    @media (min-width: 1000px) {
+      .video-title { font-size: 16px; line-height: 24px; }
+      .video-author, .video-stats { font-size: 14px; }
+    }
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .search-bar { margin: 0 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="hamburger">&#9776;</div>
+      <div class="logo"><span class="play">&#9654;</span>YouTube</div>
+    </div>
+    <div class="search-bar">
+      <div class="search-wrap">
+        <input type="text" placeholder="Search">
+        <button>&#128269;</button>
+      </div>
+      <div class="mic-icon">&#127908;</div>
+    </div>
+    <div class="header-right">
+      <button class="create-btn">+ Create</button>
+      <div class="bell">&#128276;<span class="dot">9+</span></div>
+      <div class="avatar-icon">
+        <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=100&q=80" alt="User avatar">
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+
+    <div class="sidebar">
+      <div class="sidebar-item"><div class="icon">&#8962;</div>Home</div>
+      <div class="sidebar-item"><div class="icon">&#9889;</div>Shorts</div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label">Subscriptions &#8250;</div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" alt=""><span>Shan Prasher</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=100&q=80" alt=""><span>Curse</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt=""><span>Tally Tutorial</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=100&q=80" alt=""><span>Marques Brownlee</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80" alt=""><span>Sadhguru</span></div>
+      <div class="sidebar-item"><div class="icon">&#8964;</div>Show more</div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label">You &#8250;</div>
+      <div class="sidebar-item"><div class="icon">&#128100;</div>Your channel</div>
+      <div class="sidebar-item"><div class="icon">&#8635;</div>History</div>
+      <div class="sidebar-item"><div class="icon">&#9776;</div>Playlists</div>
+    </div>
+
+    <div class="content">
+      <div class="video-grid">
+
+        <div class="video-card">
+          <div class="thumbnail-container">
+            <img src="https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg" alt="Me at the zoo Thumbnail">
+            <div class="video-time">0:19</div>
+          </div>
+          <div class="video-info-grid">
+            <div class="channel-avatar">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" alt="jawed">
+            </div>
+            <div class="video-text">
+              <p class="video-title">Me at the zoo</p>
+              <p class="video-author">jawed</p>
+              <p class="video-stats">340M views &middot; 20 years ago</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="thumbnail-container">
+            <img src="https://img.youtube.com/vi/_OBlgSz8sSM/hqdefault.jpg" alt="Charlie bit my finger Thumbnail">
+            <div class="video-time">0:56</div>
+          </div>
+          <div class="video-info-grid">
+            <div class="channel-avatar">
+              <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=100&q=80" alt="HDCYT">
+            </div>
+            <div class="video-text">
+              <p class="video-title">Charlie bit my finger - again !</p>
+              <p class="video-author">HDCYT</p>
+              <p class="video-stats">900M views &middot; 17 years ago</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="thumbnail-container">
+            <img src="https://img.youtube.com/vi/9bZkp7q19f0/hqdefault.jpg" alt="Gangnam Style Thumbnail">
+            <div class="video-time">4:13</div>
+          </div>
+          <div class="video-info-grid">
+            <div class="channel-avatar">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="officialpsy">
+            </div>
+            <div class="video-text">
+              <p class="video-title">PSY - GANGNAM STYLE(강남스타일) M/V</p>
+              <p class="video-author">officialpsy</p>
+              <p class="video-stats">5.3B views &middot; 13 years ago</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

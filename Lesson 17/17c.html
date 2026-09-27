@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Search Results</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Roboto, Arial, sans-serif; background-color: #0f0f0f; color: #f1f1f1; padding-top: 56px; }
+
+    /* ---------- Header ---------- */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background-color: #0f0f0f; display: flex; align-items: center;
+      justify-content: space-between; padding: 0 16px; z-index: 100;
+    }
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .hamburger { font-size: 22px; cursor: pointer; padding: 8px; border-radius: 50%; transition: background-color 0.15s ease; }
+    .hamburger:hover { background-color: #272727; }
+    .logo { font-size: 20px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 4px; }
+    .logo .play { background: #ff0000; color: #fff; border-radius: 4px; padding: 3px 5px; font-size: 14px; }
+
+    .search-bar { display: flex; align-items: center; gap: 16px; flex: 1; max-width: 700px; margin: 0 40px; }
+    .search-wrap { display: flex; flex: 1; position: relative; }
+    .search-bar input {
+      width: 100%; padding: 8px 40px 8px 16px; border: 1px solid #303030;
+      border-radius: 20px 0 0 20px; outline: none; background: #121212; color: #fff; font-size: 15px;
+    }
+    .search-clear {
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      color: #aaa; cursor: pointer; font-size: 16px; background: none; border: none;
+    }
+    .search-bar button.search-btn {
+      padding: 8px 20px; border: 1px solid #303030; border-left: none;
+      border-radius: 0 20px 20px 0; background-color: #222222; color: #fff; cursor: pointer;
+    }
+    .mic-icon {
+      width: 40px; height: 40px; border-radius: 50%; background: #181818;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .create-btn {
+      display: flex; align-items: center; gap: 6px; background: #272727; color: #fff;
+      border: none; border-radius: 18px; padding: 8px 14px; font-size: 14px; cursor: pointer;
+    }
+    .bell { position: relative; font-size: 20px; cursor: pointer; }
+    .avatar-icon img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; display: block; }
+
+    /* ---------- Layout ---------- */
+    .main-container { display: flex; }
+    .sidebar {
+      width: 240px; background-color: #0f0f0f; display: flex; flex-direction: column;
+      padding: 12px; flex-shrink: 0; position: sticky; top: 56px; height: calc(100vh - 56px);
+      overflow-y: auto;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 20px; width: 100%; padding: 10px 12px;
+      cursor: pointer; border-radius: 10px; font-size: 14px; color: #f1f1f1;
+    }
+    .sidebar-item:hover { background-color: #1f1f1f; }
+    .sidebar-item .icon { font-size: 18px; width: 20px; text-align: center; }
+    .sidebar-divider { border-top: 1px solid #303030; margin: 10px 0; }
+    .sidebar-label {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 6px 12px; font-size: 15px; font-weight: 600; color: #f1f1f1; cursor: pointer;
+    }
+    .sub-item { display: flex; align-items: center; gap: 16px; padding: 8px 12px; border-radius: 10px; cursor: pointer; }
+    .sub-item:hover { background-color: #1f1f1f; }
+    .sub-item img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+    .sub-item span { font-size: 14px; color: #f1f1f1; }
+
+    /* ---------- Content ---------- */
+    .content { flex: 1; padding: 20px 24px; }
+
+    .filter-row { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; overflow-x: auto; }
+    .chip {
+      flex-shrink: 0; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500;
+      background-color: #272727; color: #f1f1f1; cursor: pointer; white-space: nowrap;
+    }
+    .chip.active { background-color: #f1f1f1; color: #0f0f0f; }
+    .filters-btn {
+      margin-left: auto; display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+      font-size: 14px; font-weight: 500; color: #f1f1f1; cursor: pointer; padding: 8px 4px;
+    }
+
+    .video-list { display: flex; flex-wrap: wrap; gap: 24px; }
+    .video-row { display: flex; flex-direction: column; gap: 12px; flex: 1 1 300px; max-width: 360px; align-items: stretch; }
+
+    .row-thumb { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; background: #181818; }
+    .row-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .row-time {
+      position: absolute; bottom: 8px; right: 8px; background-color: rgba(0,0,0,0.8);
+      color: #fff; font-size: 12px; font-weight: 500; padding: 2px 6px; border-radius: 2px;
+    }
+
+    .row-info { flex: 1; min-width: 0; position: relative; }
+    .row-title { font-size: 18px; font-weight: 500; color: #f1f1f1; margin-bottom: 6px; }
+    .row-meta { font-size: 13px; color: #aaa; margin-bottom: 10px; }
+    .row-channel { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .row-channel img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+    .row-channel span { font-size: 13px; color: #aaa; }
+    .row-desc { font-size: 14px; color: #aaa; line-height: 20px; max-width: 800px; }
+    .row-menu { position: absolute; top: 4px; right: 0; font-size: 20px; color: #aaa; cursor: pointer; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .search-bar { margin: 0 12px; }
+      .video-row { flex-basis: 100%; max-width: 100%; }
+      .row-title { font-size: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="hamburger">&#9776;</div>
+      <div class="logo"><span class="play">&#9654;</span>YouTube</div>
+    </div>
+    <div class="search-bar">
+      <div class="search-wrap">
+        <input type="text" placeholder="Search">
+        <button class="search-clear">&#10005;</button>
+      </div>
+      <button class="search-btn">&#128269;</button>
+      <div class="mic-icon">&#127908;</div>
+    </div>
+    <div class="header-right">
+      <button class="create-btn">+ Create</button>
+      <div class="bell">&#128276;</div>
+      <div class="avatar-icon">
+        <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=100&q=80" alt="User avatar">
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+
+    <div class="sidebar">
+      <div class="sidebar-item"><div class="icon">&#8962;</div>Home</div>
+      <div class="sidebar-item"><div class="icon">&#9889;</div>Shorts</div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label">Subscriptions &#8250;</div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt=""><span>Rick Astley</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=100&q=80" alt=""><span>Pinkfong Baby Shark</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt=""><span>Luis Fonsi</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=100&q=80" alt=""><span>Marques Brownlee</span></div>
+      <div class="sub-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80" alt=""><span>Sadhguru</span></div>
+      <div class="sidebar-item"><div class="icon">&#8964;</div>Show more</div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label">You &#8250;</div>
+      <div class="sidebar-item"><div class="icon">&#128100;</div>Your channel</div>
+      <div class="sidebar-item"><div class="icon">&#8635;</div>History</div>
+      <div class="sidebar-item"><div class="icon">&#9776;</div>Playlists</div>
+    </div>
+
+    <div class="content">
+
+      <div class="filter-row">
+        <div class="chip active">All</div>
+        <div class="chip">Shorts</div>
+        <div class="chip">Unwatched</div>
+        <div class="chip">Watched</div>
+        <div class="chip">Videos</div>
+        <div class="chip">Recently uploaded</div>
+        <div class="chip">Live</div>
+        <div class="filters-btn">Filters &#9881;</div>
+      </div>
+
+      <div class="video-list">
+
+        <div class="video-row">
+          <div class="row-thumb">
+            <img src="https://img.youtube.com/vi/XqZsoesa55w/hqdefault.jpg" alt="Baby Shark Dance Thumbnail">
+            <div class="row-time">2:16</div>
+          </div>
+          <div class="row-info">
+            <div class="row-menu">&#8942;</div>
+            <p class="row-title">Baby Shark Dance | Sing and Dance! | Animal Songs | PINKFONG Songs for Children</p>
+            <p class="row-meta">15B views &middot; 9 years ago</p>
+            <div class="row-channel">
+              <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?auto=format&fit=crop&w=100&q=80" alt="Pinkfong">
+              <span>Pinkfong Baby Shark - Kids' Songs &amp; Stories</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-row">
+          <div class="row-thumb">
+            <img src="https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg" alt="Despacito Thumbnail">
+            <div class="row-time">4:41</div>
+          </div>
+          <div class="row-info">
+            <div class="row-menu">&#8942;</div>
+            <p class="row-title">Luis Fonsi - Despacito ft. Daddy Yankee</p>
+            <p class="row-meta">8.7B views &middot; 9 years ago</p>
+            <div class="row-channel">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="Luis Fonsi">
+              <span>Luis Fonsi</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-row">
+          <div class="row-thumb">
+            <img src="https://img.youtube.com/vi/dMH0bHeiRNg/hqdefault.jpg" alt="Evolution of Dance Thumbnail">
+            <div class="row-time">6:11</div>
+          </div>
+          <div class="row-info">
+            <div class="row-menu">&#8942;</div>
+            <p class="row-title">Evolution of Dance - by Judson Laipply</p>
+            <p class="row-meta">300M views &middot; 19 years ago</p>
+            <div class="row-channel">
+              <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=100&q=80" alt="Judson Laipply">
+              <span>Judson Laipply</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-row">
+          <div class="row-thumb">
+            <img src="https://img.youtube.com/vi/fJ9rUzIMcZQ/hqdefault.jpg" alt="Bohemian Rhapsody Thumbnail">
+            <div class="row-time">5:59</div>
+          </div>
+          <div class="row-info">
+            <div class="row-menu">&#8942;</div>
+            <p class="row-title">Queen - Bohemian Rhapsody (Official Video Remastered)</p>
+            <p class="row-meta">2B views &middot; 13 years ago</p>
+            <div class="row-channel">
+              <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=100&q=80" alt="Queen">
+              <span>Queen Official</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
