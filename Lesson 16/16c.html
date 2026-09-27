@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Video Grid</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Roboto, Arial, sans-serif; background: #fafafa; }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px 16px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px 20px;
+  }
+
+  .thumbnail-row { position: relative; border-radius: 12px; overflow: hidden; }
+  .thumbnail { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+
+  .video-time {
+    position: absolute; bottom: 6px; right: 6px;
+    padding: 2px 5px; background: rgba(0,0,0,.8); color: #fff;
+    font-size: 11px; font-weight: 600; border-radius: 4px;
+  }
+
+  .video-info-grid { display: flex; gap: 10px; margin-top: 12px; }
+  .profile-picture { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+
+  a { text-decoration: none; color: inherit; }
+  .video-title { margin: 0; font-size: 14px; font-weight: 500; color: #0f0f0f; line-height: 1.4; }
+  .channel-name, .video-stats { display: block; margin: 4px 0 0; font-size: 12px; color: #606060; }
+</style>
+</head>
+<body>
+
+  <div class="video-grid">
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=n2RNcPRtAiY" target="_blank">
+          <img class="thumbnail" src="https://i.ytimg.com/vi/n2RNcPRtAiY/hqdefault.jpg">
+        </a>
+        <div class="video-time">14:20</div>
+      </div>
+      <div class="video-info-grid">
+        <a href="https://www.youtube.com/c/mkbhd" target="_blank">
+          <img class="profile-picture" src="https://yt3.googleusercontent.com/ytc/AIdro_mkbhd">
+        </a>
+        <div>
+          <a href="https://www.youtube.com/watch?v=n2RNcPRtAiY" target="_blank"><p class="video-title">Talking Tech and AI with Google CEO Sundar Pichai!</p></a>
+          <a href="https://www.youtube.com/c/mkbhd" target="_blank" class="channel-name">Marques Brownlee</a>
+          <span class="video-stats">3.4M views &#183; 6 months ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=mP0RAo9SKZk" target="_blank">
+          <img class="thumbnail" src="https://i.ytimg.com/vi/mP0RAo9SKZk/hqdefault.jpg">
+        </a>
+        <div class="video-time">8:22</div>
+      </div>
+      <div class="video-info-grid">
+        <a href="https://www.youtube.com/c/markiplier" target="_blank">
+          <img class="profile-picture" src="https://yt3.googleusercontent.com/ytc/AIdro_markiplier">
+        </a>
+        <div>
+          <a href="https://www.youtube.com/watch?v=mP0RAo9SKZk" target="_blank"><p class="video-title">Try Not To Laugh Challenge #9</p></a>
+          <a href="https://www.youtube.com/c/markiplier" target="_blank" class="channel-name">Markiplier</a>
+          <span class="video-stats">19M views &#183; 4 years ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=FgjPQQeTh1w" target="_blank">
+          <img class="thumbnail" src="https://i.ytimg.com/vi/FgjPQQeTh1w/hqdefault.jpg">
+        </a>
+        <div class="video-time">9:13</div>
+      </div>
+      <div class="video-info-grid">
+        <a href="https://www.youtube.com/user/SSSniperWolf" target="_blank">
+          <img class="profile-picture" src="https://yt3.googleusercontent.com/ytc/AIdro_sssniperwolf">
+        </a>
+        <div>
+          <a href="https://www.youtube.com/watch?v=FgjPQQeTh1w" target="_blank"><p class="video-title">Crazy Tik Toks Taken Moments Before DISASTER</p></a>
+          <a href="https://www.youtube.com/user/SSSniperWolf" target="_blank" class="channel-name">SSSniperWolf</a>
+          <span class="video-stats">12M views &#183; 1 year ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=094y1Z2wpJg" target="_blank">
+          <img class="thumbnail" src="https://i.ytimg.com/vi/094y1Z2wpJg/hqdefault.jpg">
+        </a>
+        <div class="video-time">22:09</div>
+      </div>
+      <div class="video-info-grid">
+        <a href="https://www.youtube.com/c/veritasium" target="_blank">
+          <img class="profile-picture" src="https://yt3.googleusercontent.com/ytc/AIdro_veritasium">
+        </a>
+        <div>
+          <a href="https://www.youtube.com/watch?v=094y1Z2wpJg" target="_blank"><p class="video-title">The Simplest Math Problem No One Can Solve - Collatz Conjecture</p></a>
+          <a href="https://www.youtube.com/c/veritasium" target="_blank" class="channel-name">Veritasium</a>
+          <span class="video-stats">18M views &#183; 4 months ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=86CQq3pKSUw" target="_blank">
+          <img class="thumbnail" src="https://i.ytimg.com/vi/86CQq3pKSUw/hqdefault.jpg">
+        </a>
+        <div class="video-time">11:17</div>
+      </div>
+      <div class="video-info-grid">
+        <a href="https://www.youtube.com/c/CSDojo" target="_blank">
+          <img class="profile-picture" src="https://yt3.googleusercontent.com/ytc/AIdro_csdojo">
+        </a>
+        <div>
+          <a href="https://www.youtube.com/watch?v=86CQq3pKSUw" target="_blank"><p class="video-title">Kadane's Algorithm to Maximum Sum Subarray Problem</p></a>
+          <a href="https://www.youtube.com/c/CSDojo" target="_blank" class="channel-name">CS Dojo</a>
+          <span class="video-stats">519K views &#183; 5 years ago</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-preview">
+      <div class="thumbnail-row">
+        <a href="https://www.youtube.com/watch?v=yXWw0_UfSFg" target="_blank">
+          <img class="thumbnail" src="https://i.ytimg.com/vi/yXWw0_UfSFg/hqdefault.jpg">
+        </a>
+        <div class="video-time">19:59</div>
+      </div>
+      <div class="video-info-grid">
+        <a href="https://www.youtube.com/c/MrBeast6000" target="_blank">
+          <img class="profile-picture" src="https://yt3.googleusercontent.com/ytc/AIdro_mrbeast">
+        </a>
+        <div>
+          <a href="https://www.youtube.com/watch?v=yXWw0_UfSFg" target="_blank"><p class="video-title">Anything You Can Fit In The Circle I&rsquo;ll Pay For</p></a>
+          <a href="https://www.youtube.com/c/MrBeast6000" target="_blank" class="channel-name">MrBeast</a>
+          <span class="video-stats">141M views &#183; 1 year ago</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

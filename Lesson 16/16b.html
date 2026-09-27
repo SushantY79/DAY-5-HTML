@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Grid</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Roboto, Arial, sans-serif;
+    background: #fafafa;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px 16px;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px 20px;
+  }
+
+  .video-card { cursor: pointer; }
+
+  /* thumbnail box - gradient color comes from --grad on each card so we're
+     not writing a new class every time we add a video */
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--grad);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s ease;
+  }
+
+  .video-card:hover .thumb { transform: scale(1.02); }
+
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .duration {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, .8);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .meta {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--grad);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info { min-width: 0; }
+
+  .info a { text-decoration: none; color: inherit; }
+
+  .title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0f0f0f;
+    line-height: 1.4;
+    /* clamp to 2 lines so long titles don't blow out the card */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .author, .stats {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #606060;
+  }
+  .stats { margin-top: 2px; }
+</style>
+</head>
+<body>
+
+  <div class="video-grid">
+
+    <div class="video-card" style="--grad: linear-gradient(135deg, #4285f4, #7c4dff)">
+      <div class="thumb">
+        <img src="https://i.ytimg.com/vi/n2RNcPRtAiY/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <span class="duration">18:42</span>
+      </div>
+      <div class="meta">
+        <div class="avatar">MB</div>
+        <div class="info">
+          <a href="https://www.youtube.com/watch?v=n2RNcPRtAiY" target="_blank">
+            <p class="title">Talking Tech and AI with Google CEO Sundar Pichai!</p>
+          </a>
+          <p class="author">Marques Brownlee</p>
+          <p class="stats">3.4M views &#183; 6 months ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" style="--grad: linear-gradient(135deg, #ffb300, #ff7043)">
+      <div class="thumb">
+        <img src="https://i.ytimg.com/vi/mP0RAo9SKZk/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <span class="duration">12:05</span>
+      </div>
+      <div class="meta">
+        <div class="avatar">MK</div>
+        <div class="info">
+          <a href="https://www.youtube.com/watch?v=mP0RAo9SKZk" target="_blank">
+            <p class="title">Try Not To Laugh Challenge #9</p>
+          </a>
+          <p class="author">Markiplier</p>
+          <p class="stats">19M views &#183; 4 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" style="--grad: linear-gradient(135deg, #e53935, #ff8a65)">
+      <div class="thumb">
+        <img src="https://i.ytimg.com/vi/FgjPQQeTh1w/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <span class="duration">9:31</span>
+      </div>
+      <div class="meta">
+        <div class="avatar">SW</div>
+        <div class="info">
+          <a href="https://www.youtube.com/watch?v=FgjPQQeTh1w" target="_blank">
+            <p class="title">Crazy Tik Toks Taken Moments Before DISASTER</p>
+          </a>
+          <p class="author">SSSniperWolf</p>
+          <p class="stats">12M views &#183; 1 year ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" style="--grad: linear-gradient(135deg, #00897b, #26c6da)">
+      <div class="thumb">
+        <img src="https://i.ytimg.com/vi/094y1Z2wpJg/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <span class="duration">15:23</span>
+      </div>
+      <div class="meta">
+        <div class="avatar">V</div>
+        <div class="info">
+          <a href="https://www.youtube.com/watch?v=094y1Z2wpJg" target="_blank">
+            <p class="title">The Simplest Math Problem No One Can Solve - Collatz Conjecture</p>
+          </a>
+          <p class="author">Veritasium</p>
+          <p class="stats">18M views &#183; 4 months ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" style="--grad: linear-gradient(135deg, #2e7d32, #66bb6a)">
+      <div class="thumb">
+        <img src="https://i.ytimg.com/vi/86CQq3pKSUw/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <span class="duration">10:47</span>
+      </div>
+      <div class="meta">
+        <div class="avatar">CS</div>
+        <div class="info">
+          <a href="https://www.youtube.com/watch?v=86CQq3pKSUw" target="_blank">
+            <p class="title">Kadane's Algorithm to Maximum Sum Subarray Problem</p>
+          </a>
+          <p class="author">CS Dojo</p>
+          <p class="stats">519K views &#183; 5 years ago</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="video-card" style="--grad: linear-gradient(135deg, #f9a825, #fdd835)">
+      <div class="thumb">
+        <img src="https://i.ytimg.com/vi/yXWw0_UfSFg/hqdefault.jpg" alt="" loading="lazy" onerror="this.remove()">
+        <span class="duration">14:56</span>
+      </div>
+      <div class="meta">
+        <div class="avatar">MB</div>
+        <div class="info">
+          <a href="https://www.youtube.com/watch?v=yXWw0_UfSFg" target="_blank">
+            <p class="title">Anything You Can Fit In The Circle I&rsquo;ll Pay For</p>
+          </a>
+          <p class="author">MrBeast</p>
+          <p class="stats">141M views &#183; 1 year ago</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
